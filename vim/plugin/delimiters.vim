@@ -3,7 +3,7 @@ if exists('loaded_delimited') || &cp
 endif
 
 let loaded_delimited = 1
-python3 << EOF
+python << EOF
 
 import vim
 
@@ -20,10 +20,48 @@ class DelimiterCycler(object):
 
     """
 
+    cycles = {
+      'paren': [
+        "()\<Left>",
+        "\<Esc>lcl",
+        "())\<Left>\<Left>",
+        "\<Esc>hc4l"
+      ],
+      'bracket': [
+        "[]\<Left>",
+        "\<Esc>lcl",
+        "[]]\<Left>\<Left>",
+        "\<Esc>hc4l"
+      ],
+      'brace': [
+        "{}\<Left>",
+        "\<Esc>lcl",
+        "{}}\<Left>\<Left>",
+        "\<Esc>hc4l"
+    ]}
+
+    delimiters = {
+      '(': 'paren',
+      '[': 'bracket',
+      '{': 'brace'
+    }
+
+    def __init__(self):
+        self.pos = (None,None)
+        self.delim_yielder = {}
+
+        for delimiter, cycle in iter(DelimiterCycler.cycles.items()):
+            self.delim_yielder[delimiter] = self._cycle(delimiter, cycle)
+
+    def yield_delimiters(self, delimiter):
+        return next(self.delim_yielder[delimiter])
+
     def _cycle(self, delim, iterable):
-        saved = iterable[:]
+
+        state = iterable[:]
         delimpair, rest = iterable[0], iterable[1:]
-        while saved:
+
+        while state:
             win = vim.current.window
             row, col = win.cursor
             self.pos = (row, col)
@@ -31,48 +69,21 @@ class DelimiterCycler(object):
 
             for element in rest:
                 win = vim.current.window
-                row, col = win.cursor
-                try:
-                    char = vim.current.line[col-1]
-                except IndexError:
-                    # Empty line
-                    char = None
-
-                if self.pos in [(row, col), (row, col-1)] and char == delim:
-                    self.pos = (row, col)
+                if self._can_yield(win.cursor):
+                    self.pos = win.cursor
                     yield element
                 else:
                     # Reset the cycler
                     break
 
-    def __init__(self):
-        self.pos = (None,None)
-        self.delim_yielder = {}
-        self.delimiters = {
-                  'paren': [
-                  "()\<Left>",
-                  "\<Esc>lcl",
-                  "())\<Left>\<Left>",
-                  "\<Esc>hc4l"
-                 ],
-                  'bracket': [
-                  "[]\<Left>",
-                  "\<Esc>lcl",
-                  "[]]\<Left>\<Left>",
-                  "\<Esc>hc4l"
-                 ],
-                  'brace': [
-                  "{}\<Left>",
-                  "\<Esc>lcl",
-                  "{}}\<Left>\<Left>",
-                  "\<Esc>hc4l"
-                 ]}
+    def _can_yield(self, (row, col)):
+        try:
+            previous = vim.current.line[col-1]
+        except IndexError:
+            # Empty line
+            previous = None
+        return self.pos in [(row, col), (row, col-1)] and DelimiterCycler.delimiters.get(previous)
 
-        for key, iterable in self.delimiters.iteritems():
-            self.delim_yielder[key] = self._cycle(key, iterable)
-
-    def yield_delimiters(self, delim):
-        return next(self.delim_yielder[delim])
 
 
 delimited_cycler___ = DelimiterCycler()
@@ -80,7 +91,7 @@ delimited_cycler___ = DelimiterCycler()
 EOF
 
 function! s:DelimiterCycler(delim)
-    python3 vim.command('return "{0}"'.format( delimited_cycler___.yield_delimiters(vim.eval('a:delim'))) )
+    python vim.command('return "{0}"'.format( delimited_cycler___.yield_delimiters(vim.eval('a:delim'))) )
 endfunction
 
 inoremap <expr> { <SID>DelimiterCycler('brace')
