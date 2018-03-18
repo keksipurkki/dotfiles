@@ -1,0 +1,37 @@
+snippet jsx
+
+import React, { Component } from 'react';
+
+class ${1:ClassName} extends Component {
+
+  render() {
+    return ${0:<div />}
+  }
+
+}
+
+export default $1;
+
+endsnippet
+
+snippet njsx
+
+import React, { Component } from 'react';
+
+import {
+  View,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
+class ${1:ClassName} extends Component {
+
+  render() {
+    return ${0:<div />}
+  }
+
+}
+
+export default $1;
+
+endsnippet

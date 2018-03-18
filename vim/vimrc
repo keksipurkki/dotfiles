@@ -1,0 +1,136 @@
+" vim: nowrap fdm=marker
+"
+" File:         vimrc
+" Last Change:  2018-03-16
+
+let &packpath.=','.expand('<sfile>:h')
+syntax on
+filetype plugin indent on
+
+" Settings {{{1
+set shellcmdflag+=l " Read ~/.profile
+
+"let mapleader = "_"
+let maplocalleader = ";"
+set completeopt=longest,menuone
+set guicursor+=a:blinkon0
+set guifont=SF\ Mono\ Light:h16
+
+if has('gui_running')
+  set lines=80 columns=90
+endif
+
+if !has('gui_running')
+  colorscheme terminal
+endif
+
+set autoread
+set directory=/tmp
+set guioptions-=T
+set ignorecase
+set incsearch
+set modeline
+set nobackup
+set nowritebackup
+set nu
+set scrolloff=8
+set showmatch
+set smartcase
+set sts=2 sw=2 et
+set t_Co=256
+set vb t_vb=
+
+" Jump to the line that was last edited
+autocmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \   exe "normal! g`\"" |
+      \ endif
+
+" Git
+command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
+command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '')\"`
+
+" Mappings {{{1
+noremap + "+
+noremap TT :tabe<CR>
+noremap Y y$
+noremap D d$
+noremap <C-L> :redraw!<CR>
+
+cabbrev <expr> E ((getcmdtype() == ':' && getcmdpos() <= 2)? 'e' : 'E')
+cabbrev <expr> W ((getcmdtype() == ':' && getcmdpos() <= 2)? 'w' : 'W')
+cabbrev <expr> Q ((getcmdtype() == ':' && getcmdpos() <= 2)? 'q' : 'Q')
+cabbrev res Res
+
+command! -range=% CRLFify :e ++ff=dos
+command! DosToUnix :e ++ff=dos | :setlocal ff=unix | :w
+command! Vimrc :e $MYVIMRC
+command! TakeMeHere :lcd %:p:h
+command! -range=% ValidateJSON <line1>,<line2>:!python -mjson.tool
+command! -range=% ValidateXML <line1>,<line2>:!tidy -q --input-xml yes
+command! -range=% StripSpaces <line1>,<line2>:s/\s\+$//g|w
+command! -range=% Indent <line1>,<line2>:!indent
+
+" Filetypes {{{1
+
+augroup txt
+  au BufRead,BufNewFile *.txt setlocal tw=72 fo=t
+augroup END
+
+au FileType typescript setlocal sw=4 sts=4 et
+
+
+au Filetype markdown setlocal tw=72
+
+let g:is_bash=1
+let g:tex_flavor = 'latex'
+let g:tex_comment_nospell= 1
+let g:tex_nine_config = {
+      \'compiler' : 'latex',
+      \'viewer': {'app': 'open', 'target': 'pdf'},
+      \}
+
+let netrw_browsex_viewer = "open"
+
+" Vimdiff
+if &diff
+  noremap <buffer> <C-F> ]c
+  noremap <buffer> <C-B> [c
+  noremap <buffer> dp zRdp
+  noremap <buffer> do zRdo
+endif
+
+" Spell checking
+noremap <D-s> ]s
+noremap <D-A-s> [s
+
+"Colors {{{1
+set background=light
+set laststatus=2
+let g:airline_powerline_fonts=0
+
+" UltiSnips {{{1
+let g:UltiSnipsEditSplit = "vertical"
+let g:UltiSnipsSnippetDir = expand('<sfile>:h') . '/templates'
+let g:UltiSnipsSnippetDirectories = ["templates"]
+
+" JavaScript {{{1
+let g:javascript_plugin_flow = 0
+let g:vim_jsx_pretty_enable_jsx_highlight = 0
+let g:vim_jsx_pretty_colorful_config = 1
+
+" ALE linter
+let g:ale_enabled = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_delay=0
+let g:ale_set_loclist = 1
+let g:ale_set_quickfix = 0
+let g:airline#extensions#ale#enabled = 1
+let g:ale_linters = {
+      \ 'javascript': ['eslint'],
+      \ 'typescript': ['tslint', 'tsserver']
+      \}
+let g:ale_fixers = {
+      \   'javascript': ['eslint'],
+      \   'typescript': ['tslint'],
+      \}
