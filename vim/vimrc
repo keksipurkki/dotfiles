@@ -4,6 +4,8 @@
 " Last Change:  2018-03-16
 
 let &packpath.=','.expand('<sfile>:h')
+let &rtp.=','.expand('<sfile>:h')
+
 syntax on
 filetype plugin indent on
 
