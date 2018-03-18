@@ -26,6 +26,6 @@ do
   if [[ -d "$path" ]]; then
     git -C $path pull
   else
-    git clone $git_url $path
+    git clone $module $path
   fi
 done
