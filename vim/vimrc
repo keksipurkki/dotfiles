@@ -80,8 +80,7 @@ augroup txt
 augroup END
 
 au FileType typescript setlocal sw=4 sts=4 et
-
-
+au FileType javascript setlocal sw=4 sts=4 et
 au Filetype markdown setlocal tw=72
 
 let g:is_bash=1

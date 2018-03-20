@@ -69,20 +69,20 @@ class DelimiterCycler(object):
 
             for element in rest:
                 win = vim.current.window
-                if self._can_yield(win.cursor):
+                if self._can_yield(win.cursor, delim):
                     self.pos = win.cursor
                     yield element
                 else:
                     # Reset the cycler
                     break
 
-    def _can_yield(self, (row, col)):
+    def _can_yield(self, (row, col), delim):
         try:
             previous = vim.current.line[col-1]
         except IndexError:
             # Empty line
             previous = None
-        return self.pos in [(row, col), (row, col-1)] and DelimiterCycler.delimiters.get(previous)
+        return self.pos in [(row, col), (row, col-1)] and DelimiterCycler.delimiters.get(previous) == delim
 
 
 
