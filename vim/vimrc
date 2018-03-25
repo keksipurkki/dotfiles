@@ -69,9 +69,10 @@ command! DosToUnix :e ++ff=dos | :setlocal ff=unix | :w
 command! Vimrc :e $MYVIMRC
 command! TakeMeHere :lcd %:p:h
 command! -range=% ValidateJSON <line1>,<line2>:!python -mjson.tool
-command! -range=% ValidateXML <line1>,<line2>:!tidy -q --input-xml yes
+command! -range=% ValidateXML <line1>,<line2>:!tidy -qi -xml
 command! -range=% StripSpaces <line1>,<line2>:s/\s\+$//g|w
 command! -range=% Indent <line1>,<line2>:!indent
+command! -range=% HtmlPrettier <line1>,<line2>:!tidy -qi -utf8 || true
 
 " Filetypes {{{1
 
