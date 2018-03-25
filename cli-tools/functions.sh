@@ -56,6 +56,24 @@ function post_json
 
 }
 
+# @brief PUT a JSON file to an URL with curl
+#
+# @param JSON file
+# @param An url
+# @param opts, arguments passed to curl
+#
+function put_json
+{
+  local json=$1
+  shift
+  local endpoint=$1
+  shift
+  curl "$@" --header "Content-Type: application/json" -k -X PUT\
+    --data-binary @$json \
+    "$endpoint"
+
+}
+
 function iface
 {
   if [[ $(uname) == "Linux" ]]; then
