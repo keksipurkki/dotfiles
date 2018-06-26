@@ -16,6 +16,7 @@ modules=(
   https://github.com/mxw/vim-jsx.git
   https://github.com/prettier/vim-prettier.git
   https://github.com/leafgarland/typescript-vim.git
+  https://github.com/editorconfig/editorconfig-vim.git
 )
 
 mkdir -p pack/modules/start

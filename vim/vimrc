@@ -50,7 +50,7 @@ autocmd BufReadPost *
 
 " Git
 command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
-command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '')\"`
+command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '' )\"`
 
 " Mappings {{{1
 noremap + "+
@@ -80,7 +80,7 @@ augroup txt
   au BufRead,BufNewFile *.txt setlocal tw=72 fo=t
 augroup END
 
-au FileType typescript setlocal sw=4 sts=4 et
+au FileType typescript setlocal et
 au FileType javascript setlocal sw=4 sts=4 et
 au Filetype markdown setlocal tw=72
 
