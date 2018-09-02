@@ -48,6 +48,8 @@ autocmd BufReadPost *
       \   exe "normal! g`\"" |
       \ endif
 
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 " Git
 command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
 command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '' )\"`
@@ -73,6 +75,15 @@ command! -range=% ValidateXML <line1>,<line2>:!tidy -qi -xml
 command! -range=% StripSpaces <line1>,<line2>:s/\s\+$//g|w
 command! -range=% Indent <line1>,<line2>:!indent
 command! -range=% HtmlPrettier <line1>,<line2>:!tidy -qi -utf8 || true
+
+" CSV
+function! CSVFormat() 
+  %substitute/\t/;/g
+  %substitute/,/./g
+  %substitute///g
+  global/^\s*$/d
+endfunction
+command! -range=% CSVPrettier :call CSVFormat()
 
 " Filetypes {{{1
 
@@ -135,4 +146,5 @@ let g:ale_linters = {
 let g:ale_fixers = {
       \   'javascript': ['eslint'],
       \   'typescript': ['tslint'],
+      \   'css': ['stylelint'],
       \}
