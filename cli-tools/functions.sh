@@ -318,7 +318,7 @@ function git_dirty
   if ! git rev-parse --is-inside-work-tree &> /dev/null; then
     return
   fi
-  if test -n "$(git status --porcelain 2> /dev/null)"; then 
+  if test -n "$(git status --porcelain 2> /dev/null)"; then
     echo -e '[\xF0\x9F\x92\xA9] '
   fi
 }
@@ -414,4 +414,16 @@ function ansi_escapes()
     LCYAN='\[\033[01;36m\]'
     WHITE='\[\033[01;37m\]'
 EOF
+}
+
+# @brief
+# Poor man's disk clean up routine for MacOS
+function clean_my_macos()
+{
+    echo "Pruning simulators"
+    du -sh $HOME/Library/Developer/CoreSimulator/
+    xcrun simctl delete unavailable
+    du -sh $HOME/Library/Developer/CoreSimulator/
+
+    # More to come
 }
