@@ -425,5 +425,10 @@ function clean_my_macos()
     xcrun simctl delete unavailable
     du -sh $HOME/Library/Developer/CoreSimulator/
 
+    echo "Pruning Homebrew"
+    if which brew > /dev/null; then
+        brew cleanup
+    fi
+
     # More to come
 }
