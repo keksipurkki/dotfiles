@@ -340,7 +340,7 @@ function git_prompt
 
 function git_sed
 {
-  git grep -l "$1" | xargs sed -i '' -e 's/'$1'/'$2'/g'
+  git grep -l "$1" | xargs sed -i '' -e "s|$1|$2|g"
 }
 
 
