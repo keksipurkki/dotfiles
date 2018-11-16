@@ -1,0 +1,45 @@
+#!/bin/bash
+
+file=${1}
+
+KEYS_RIGHT=$'\e[C'
+KEYS_LEFT=$'\e[D'
+
+if ! git ls-files --error-unmatch "$file"; then
+  exit 1
+fi
+
+hashes=()
+for hash in $(git log --pretty=tformat:"%H" --follow "$file" | tail -r); do
+  hashes+=("$hash")
+done
+
+function next()
+{
+  local i=${1}
+
+  i=$(( (i + 1) % ${#hashes[@]}))
+  echo $i 
+}
+
+function prev()
+{
+  local i=${1}
+  if ! (( $i )); then
+    echo $(( ${#hashes[@]} - 1 ))
+    return
+  fi
+  i=$(( (i - 1) % ${#hashes[@]}))
+  echo $i
+}
+
+index=0
+git --no-pager show ${hashes[$index]}:$file
+while read -s -n3 char; do
+  case "$char" in
+    $KEYS_RIGHT) index=$(next $index);;
+    $KEYS_LEFT)  index=$(prev $index);;
+  esac
+  clear
+  git --no-pager show ${hashes[$index]}:$file
+done
