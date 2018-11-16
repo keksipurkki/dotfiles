@@ -33,13 +33,20 @@ function prev()
   echo $i
 }
 
+function show()
+{
+  local index=${1:-0}
+  clear
+  git --no-pager log -n1 ${hashes[$index]}
+  git --no-pager show --format=medium ${hashes[$index]}:"$file"
+}
+
 index=0
-git --no-pager show ${hashes[$index]}:$file
+show $index
 while read -s -n3 char; do
   case "$char" in
     $KEYS_RIGHT) index=$(next $index);;
     $KEYS_LEFT)  index=$(prev $index);;
   esac
-  clear
-  git --no-pager show ${hashes[$index]}:$file
+  show $index
 done
