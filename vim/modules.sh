@@ -18,6 +18,7 @@ modules=(
   https://github.com/leafgarland/typescript-vim.git
   https://github.com/editorconfig/editorconfig-vim.git
   https://github.com/kballard/vim-swift.git
+  https://github.com/vim-scripts/confluencewiki.vim.git
 )
 
 mkdir -p pack/modules/start
