@@ -65,7 +65,7 @@ alias tunnelview="lsof -i4 -s TCP:LISTEN -n | awk '/^ssh/{print \$(NF-1),\$2}'"
 alias mplayer='mplayer -nolirc'
 alias yle-dl="yle-dl --vfat"
 alias whereis="fd"
-alias git-clean-commits='git rebase -i $(git merge-base --fork-point dev)'
+alias git-clean-commits='git rebase -i $(git merge-base --fork-point master)'
 
 # Mac OSX-only aliases
 if [[ "$(uname)" = Darwin ]]; then

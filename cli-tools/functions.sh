@@ -431,3 +431,12 @@ function clean_my_macos()
 
     # More to come
 }
+
+# @brief
+# RSA decrypt/encrypt
+function rsa_decrypt()
+{
+  local encrypted=${1?}
+  local secret_key=${2?}
+  openssl rsautl -oaep -decrypt -in "$encrypted" -inkey "$secret_key"
+}
