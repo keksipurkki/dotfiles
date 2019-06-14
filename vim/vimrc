@@ -78,7 +78,7 @@ command! -range=% Indent <line1>,<line2>:!indent
 command! -range=% HtmlPrettier <line1>,<line2>:!tidy -qi -utf8 || true
 
 " CSV
-function! CSVFormat() 
+function! CSVFormat()
   %substitute/\t/;/g
   %substitute/,/./g
   %substitute///g
@@ -148,3 +148,7 @@ let g:ale_fixers = {
       \   'typescript': ['tslint'],
       \   'css': ['stylelint'],
       \}
+
+" tsuquyomi
+let g:loaded_syntastic_tsuquyomi_syntax_checker = 1
+let g:tsuquyomi_disable_quickfix = 1

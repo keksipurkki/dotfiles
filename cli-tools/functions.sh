@@ -146,13 +146,13 @@ function unquote_it
 # @brief url decode each line on stdin
 function urldecode
 {
-  python -c "import urllib, sys; print urllib.unquote(sys.stdin.read())"
+  python -c "import urllib, sys; print urllib.unquote(sys.stdin.read()),"
 }
 
 # @brief url encode each line on stdin
 function urlencode
 {
-  python -c "import urllib, sys; print urllib.quote(sys.stdin.read(), '\n\/')"
+  python -c "import urllib, sys; print urllib.quote(sys.stdin.read(), '\n\/'),"
 }
 
 # @brief find all matches
