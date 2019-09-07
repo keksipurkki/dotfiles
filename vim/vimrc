@@ -16,7 +16,7 @@ set shellcmdflag+=l " Read ~/.profile
 let maplocalleader = ";"
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
-set guifont=Monaco:h14
+set guifont=Monego:h14
 
 if has('gui_running')
   set lines=80 columns=90
@@ -122,11 +122,6 @@ set background=light
 set laststatus=2
 let g:airline_powerline_fonts=0
 
-" UltiSnips {{{1
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetDir = expand('<sfile>:h') . '/templates'
-let g:UltiSnipsSnippetDirectories = ["templates"]
-
 " JavaScript {{{1
 let g:javascript_plugin_flow = 0
 let g:vim_jsx_pretty_enable_jsx_highlight = 0
@@ -142,10 +137,10 @@ let g:ale_set_quickfix = 0
 let g:airline#extensions#ale#enabled = 1
 let g:ale_linters = {
       \ 'javascript': ['eslint'],
-      \ 'typescript': ['tslint', 'tsserver']
+      \ 'typescript': ['eslint', 'tsserver']
       \}
 let g:ale_fixers = {
       \   'javascript': ['eslint'],
-      \   'typescript': ['tslint'],
+      \   'typescript': ['eslint'],
       \   'css': ['stylelint'],
       \}

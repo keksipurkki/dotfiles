@@ -4,7 +4,6 @@ modules=(
   https://github.com/ekalinin/Dockerfile.vim.git
   https://github.com/scrooloose/nerdtree.git
   https://github.com/tyru/restart.vim.git
-  https://github.com/SirVer/ultisnips.git
   https://github.com/bling/vim-airline.git
   https://github.com/altercation/vim-colors-solarized.git
   https://github.com/ap/vim-css-color.git
