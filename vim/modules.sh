@@ -20,7 +20,6 @@ modules=(
   https://github.com/kballard/vim-swift.git
   https://github.com/vim-scripts/confluencewiki.vim.git
   https://github.com/modille/groovy.vim
-  https://github.com/Quramy/tsuquyomi
 )
 
 mkdir -p pack/modules/start

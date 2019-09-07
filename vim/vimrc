@@ -133,6 +133,7 @@ let g:vim_jsx_pretty_enable_jsx_highlight = 0
 let g:vim_jsx_pretty_colorful_config = 1
 
 " ALE linter
+let g:ale_completion_enabled = 1
 let g:ale_enabled = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_delay=0
@@ -148,7 +149,3 @@ let g:ale_fixers = {
       \   'typescript': ['tslint'],
       \   'css': ['stylelint'],
       \}
-
-" tsuquyomi
-let g:loaded_syntastic_tsuquyomi_syntax_checker = 1
-let g:tsuquyomi_disable_quickfix = 1
