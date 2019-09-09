@@ -16,7 +16,7 @@ set shellcmdflag+=l " Read ~/.profile
 let maplocalleader = ";"
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
-set guifont=Monaco:h14
+set guifont=Monego:h14
 
 if has('gui_running')
   set lines=80 columns=90

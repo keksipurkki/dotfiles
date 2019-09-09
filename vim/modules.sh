@@ -13,9 +13,9 @@ modules=(
   https://github.com/vim-scripts/TeX-9.git
   https://github.com/w0rp/ale.git
   https://github.com/pangloss/vim-javascript.git
-  https://github.com/mxw/vim-jsx.git
   https://github.com/prettier/vim-prettier.git
   https://github.com/leafgarland/typescript-vim.git
+  https://github.com/peitalin/vim-jsx-typescript
   https://github.com/editorconfig/editorconfig-vim.git
   https://github.com/kballard/vim-swift.git
   https://github.com/vim-scripts/confluencewiki.vim.git
