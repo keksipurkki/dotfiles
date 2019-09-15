@@ -93,7 +93,7 @@ augroup txt
 augroup END
 
 au FileType typescript setlocal et
-au Filetype markdown setlocal tw=72
+au Filetype markdown setlocal tw=80
 
 let g:is_bash=1
 let g:tex_flavor = 'latex'
