@@ -2,6 +2,7 @@
 
 modules=(
   https://github.com/ekalinin/Dockerfile.vim.git
+  "https://github.com/neoclide/coc.nvim.git#release"
   https://github.com/scrooloose/nerdtree.git
   https://github.com/tyru/restart.vim.git
   https://github.com/bling/vim-airline.git
@@ -10,7 +11,6 @@ modules=(
   https://github.com/hash-bang/vim-php-autolint.git
   https://github.com/hynek/vim-python-pep8-indent.git
   https://github.com/vim-scripts/TeX-9.git
-  https://github.com/w0rp/ale.git
   https://github.com/pangloss/vim-javascript.git
   https://github.com/mxw/vim-jsx.git
   https://github.com/prettier/vim-prettier.git
@@ -29,6 +29,7 @@ do
   if [[ -d "$path" ]]; then
     git -C $path pull
   else
-    git clone $module $path
+    IFS='#' read  url branch <<< "$module"
+    git clone -b ${branch-master} $url $path
   fi
 done
