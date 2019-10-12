@@ -1,6 +1,8 @@
 #!/bin/bash
 
 modules=(
+  "https://github.com/leafgarland/typescript-vim.git"
+  "https://github.com/pangloss/vim-javascript.git"
   "https://github.com/ekalinin/Dockerfile.vim.git"
   "https://github.com/scrooloose/nerdtree.git"
   "https://github.com/tyru/restart.vim.git"
@@ -9,10 +11,7 @@ modules=(
   "https://github.com/ap/vim-css-color.git"
   "https://github.com/hash-bang/vim-php-autolint.git"
   "https://github.com/vim-scripts/TeX-9.git"
-  "https://github.com/pangloss/vim-javascript.git"
-  "https://github.com/mxw/vim-jsx.git"
   "https://github.com/prettier/vim-prettier.git"
-  "https://github.com/leafgarland/typescript-vim.git"
   "https://github.com/editorconfig/editorconfig-vim.git"
   "https://github.com/vim-scripts/confluencewiki.vim.git"
   "https://github.com/modille/groovy.vim"

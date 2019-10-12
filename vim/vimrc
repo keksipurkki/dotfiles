@@ -79,6 +79,9 @@ noremap TT :tabe<CR>
 noremap Y y$
 noremap D d$
 noremap <C-L> :redraw!<CR>
+map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 cabbrev <expr> E ((getcmdtype() == ':' && getcmdpos() <= 2)? 'e' : 'E')
 cabbrev <expr> W ((getcmdtype() == ':' && getcmdpos() <= 2)? 'w' : 'W')
@@ -132,7 +135,8 @@ noremap <D-A-s> [s
 "Colors {{{1
 let g:airline_powerline_fonts=0
 function! ColorFixes()
-  hi Conceal  guifg=#000000   guibg=#ffffff   gui=none ctermfg=16 ctermbg=231 cterm=none
+
+  hi Conceal  guifg=#000000   guibg=#ffffff  gui=none ctermfg=16 ctermbg=231 cterm=none
   hi LineNr guibg=white guifg=darkgrey
   hi SignColumn guibg=white
   hi CocErrorSign    guibg=white guifg=#ff0000
@@ -140,6 +144,12 @@ function! ColorFixes()
   hi CocInfoSign     guibg=white guifg=#fab005
   hi CocHintSign     guibg=white guifg=#15aabf
   hi CocErrorHighlight gui=underline guisp=#ff0000
+
+  " Simplify the color scheme
+  hi Function guifg=#000000
+  hi Comment guifg=#cccccc gui=bold
+  hi Identifier guifg=#000000
+
 endfunction
 autocmd BufReadPost * silent call ColorFixes()
 
@@ -149,8 +159,7 @@ endif
 
 " JavaScript {{{1
 let g:javascript_plugin_flow = 0
-let g:vim_jsx_pretty_enable_jsx_highlight = 0
-let g:vim_jsx_pretty_colorful_config = 1
+let g:vim_jsx_pretty_highlight_close_tag = 0
 
 " Override default functionalities with CoC/LSPs {{{1
 nmap <silent> gd <Plug>(coc-definition)
