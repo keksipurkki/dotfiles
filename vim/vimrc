@@ -3,8 +3,7 @@
 " File:         vimrc
 " Last Change:  2019-10-12
 
-let &packpath.=','.expand('<sfile>:h')
-
+execute "set packpath+=" . expand('<sfile>:h')
 syntax on
 filetype plugin indent on
 
@@ -12,14 +11,13 @@ filetype plugin indent on
 
 " Note: No settings related to linewidth/shiftwidth. They are defined in .editorconfig
 
-set shellcmdflag+=l " Read ~/.profile
-
 let mapleader = ";"
 let maplocalleader = ";"
+
+set shellcmdflag+=l " Read ~/.profile
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
 set guifont=Monego:h14 " Monaco with bold/italic font weights
-
 set hidden
 set autoread
 set directory=/tmp
@@ -49,25 +47,21 @@ function! LastLine()
   endif
 endfunction
 
-function! SyntaxEscapeHatch() 
+function! SyntaxEscapeHatch()
   if getfsize(expand("%")) > 1024 * 1024 | syntax off | endif
 endfunction
 
-autocmd BufReadPre * silent call SyntaxEscapeHatch()
-autocmd BufReadPost * silent call LastLine()
-autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-autocmd FileType markdown setlocal spell
-autocmd FileType txt setlocal spell
-autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
-
-" Indent
+" Sanitize indent settings globally
 function! IndentReset()
   set autoindent
   set smartindent
   set nocindent
 endfunction
 
+autocmd BufReadPre * silent call SyntaxEscapeHatch()
+autocmd BufReadPost * silent call LastLine()
 autocmd BufReadPost * silent call IndentReset()
+autocmd VimLeave * macaction terminate:
 
 " Git
 command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
@@ -79,10 +73,13 @@ noremap TT :tabe<CR>
 noremap Y y$
 noremap D d$
 noremap <C-L> :redraw!<CR>
+
+" For debbuging syntax highlighting
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" Common typos
 cabbrev <expr> E ((getcmdtype() == ':' && getcmdpos() <= 2)? 'e' : 'E')
 cabbrev <expr> W ((getcmdtype() == ':' && getcmdpos() <= 2)? 'w' : 'W')
 cabbrev <expr> Q ((getcmdtype() == ':' && getcmdpos() <= 2)? 'q' : 'Q')
@@ -110,7 +107,12 @@ command! -range=% PrettierSwift <line1>,<line2>:!swift format
 command! -range=% PrettierCSV :call CSVFormat()
 
 " Filetypes {{{1
+autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
+autocmd FileType markdown setlocal spell
+autocmd FileType txt setlocal spell
+
 let g:is_bash=1
+
 let g:tex_flavor = 'latex'
 let g:tex_comment_nospell= 1
 let g:tex_nine_config = {
@@ -119,6 +121,9 @@ let g:tex_nine_config = {
       \}
 
 let netrw_browsex_viewer = "open"
+
+let g:javascript_plugin_flow = 0
+let g:vim_jsx_pretty_highlight_close_tag = 0
 
 " Vimdiff
 if &diff
@@ -133,9 +138,9 @@ noremap <D-s> ]s
 noremap <D-A-s> [s
 
 "Colors {{{1
-let g:airline_powerline_fonts=0
 function! ColorFixes()
 
+  " Patch MacVim color scheme
   hi Conceal  guifg=#000000   guibg=#ffffff  gui=none ctermfg=16 ctermbg=231 cterm=none
   hi LineNr guibg=white guifg=darkgrey
   hi SignColumn guibg=white
@@ -157,11 +162,12 @@ if !has('gui_running')
   colorscheme terminal
 endif
 
-" JavaScript {{{1
-let g:javascript_plugin_flow = 0
-let g:vim_jsx_pretty_highlight_close_tag = 0
+" Misc {{{1
+let g:coc_config_home = expand('<sfile>:h')
+let g:coc_sync_on_save = 1
+let g:airline_powerline_fonts = 0
 
-" Override default functionalities with CoC/LSPs {{{1
+" Override default functionalities with CoC/LSPs
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)

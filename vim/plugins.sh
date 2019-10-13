@@ -1,6 +1,9 @@
 #!/bin/bash
 
+prefix=com.github
+
 modules=(
+  "https://github.com/keksipurkki/coc.nvim.git#release"
   "https://github.com/leafgarland/typescript-vim.git"
   "https://github.com/pangloss/vim-javascript.git"
   "https://github.com/ekalinin/Dockerfile.vim.git"
@@ -17,16 +20,19 @@ modules=(
   "https://github.com/modille/groovy.vim"
 )
 
-mkdir -p pack/com.github/start
+mkdir -p pack/$prefix/start
 
 for module in ${modules[@]}
 do
   IFS='#' read url branch <<< "$module"
-  path=pack/com.github/start/$(basename -s ".git" $url)
+
+  path=pack/$prefix/start/$(basename -s ".git" $url)
   branch=${branch:-master}
+
   if [[ -d "$path" ]]; then
     git -C $path pull
   else
     git clone -b ${branch} $url $path
   fi
+
 done
