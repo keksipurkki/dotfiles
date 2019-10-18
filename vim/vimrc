@@ -1,7 +1,7 @@
 " vim: nowrap fdm=marker
 "
 " File:         vimrc
-" Last Change:  2018-03-16
+" Last Change:  2019-10-12T16:09:52+0300
 
 let &packpath.=','.expand('<sfile>:h')
 let &rtp.=','.expand('<sfile>:h')
@@ -12,7 +12,7 @@ filetype plugin indent on
 " Settings {{{1
 set shellcmdflag+=l " Read ~/.profile
 
-"let mapleader = "_"
+let mapleader = ";"
 let maplocalleader = ";"
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
@@ -26,6 +26,7 @@ if !has('gui_running')
   colorscheme terminal
 endif
 
+set hidden
 set autoread
 set directory=/tmp
 set guioptions-=T
@@ -36,17 +37,24 @@ set nobackup
 set nowritebackup
 set nu
 set scrolloff=8
-set showmatch
+set cmdheight=1
+set updatetime=300
+set background=light
+set laststatus=2
+set shortmess+=c
+set signcolumn=yes
 set smartcase
 set sts=2 sw=2 et
 set t_Co=256
 set vb t_vb=
 
 " Jump to the line that was last edited
-autocmd BufReadPost *
-      \ if line("'\"") > 1 && line("'\"") <= line("$") |
-      \   exe "normal! g`\"" |
-      \ endif
+function! LastLine()
+  if line("'\"") > 1 && line("'\"") <= line("$") |
+    exe "normal! g`\"" |
+  endif
+endfunction
+autocmd BufReadPost * silent call LastLine()
 
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
@@ -76,6 +84,7 @@ command! -range=% ValidateXML <line1>,<line2>:!tidy -qi -xml
 command! -range=% StripSpaces <line1>,<line2>:s/\s\+$//g|w
 command! -range=% Indent <line1>,<line2>:!indent
 command! -range=% HtmlPrettier <line1>,<line2>:!tidy -qi -utf8 || true
+command! -range=% SwiftPrettier <line1>,<line2>:!swift format
 
 " CSV
 function! CSVFormat()
@@ -93,7 +102,7 @@ augroup txt
 augroup END
 
 au FileType typescript setlocal et
-au Filetype markdown setlocal tw=72
+au Filetype markdown setlocal tw=80
 
 let g:is_bash=1
 let g:tex_flavor = 'latex'
@@ -118,37 +127,27 @@ noremap <D-s> ]s
 noremap <D-A-s> [s
 
 "Colors {{{1
-set background=light
-set laststatus=2
 let g:airline_powerline_fonts=0
-
-" UltiSnips {{{1
-let g:UltiSnipsEditSplit = "vertical"
-let g:UltiSnipsSnippetDir = expand('<sfile>:h') . '/templates'
-let g:UltiSnipsSnippetDirectories = ["templates"]
+function! ColorFixes()
+  hi LineNr guibg=white guifg=darkgrey
+  hi SignColumn guibg=white
+  hi CocErrorSign    guibg=white guifg=#ff0000
+  hi CocWarningSign  guibg=white guifg=#ff922b
+  hi CocInfoSign     guibg=white guifg=#fab005
+  hi CocHintSign     guibg=white guifg=#15aabf
+  hi CocErrorHighlight gui=underline guisp=#ff0000
+endfunction
+autocmd BufReadPost * silent call ColorFixes()
 
 " JavaScript {{{1
 let g:javascript_plugin_flow = 0
 let g:vim_jsx_pretty_enable_jsx_highlight = 0
 let g:vim_jsx_pretty_colorful_config = 1
 
-" ALE linter
-let g:ale_enabled = 1
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_delay=0
-let g:ale_set_loclist = 1
-let g:ale_set_quickfix = 0
-let g:airline#extensions#ale#enabled = 1
-let g:ale_linters = {
-      \ 'javascript': ['eslint'],
-      \ 'typescript': ['tslint', 'tsserver']
-      \}
-let g:ale_fixers = {
-      \   'javascript': ['eslint'],
-      \   'typescript': ['tslint'],
-      \   'css': ['stylelint'],
-      \}
-
-" tsuquyomi
-let g:loaded_syntastic_tsuquyomi_syntax_checker = 1
-let g:tsuquyomi_disable_quickfix = 1
+" Override default functionalities with CoC/LSPs {{{1
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <leader>rn <Plug>(coc-rename)
+autocmd CursorHold * silent call CocActionAsync('highlight')
