@@ -1,0 +1,35 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "suggest.floatEnable": true,
+  "diagnostic.messageTarget": "echo",
+  "coc.preferences.hoverTarget": "echo",
+  "diagnostic.warningSign": "W",
+  "diagnostic.errorSign": "E",
+  "diagnostic.infoSign": "I",
+  "diagnostic.hintSign": "H",
+  "tsserver.log": "verbose",
+  "languageserver": {
+    "swift": {
+      "command": "sourcekit-lsp",
+      "args": [],
+      "filetypes": ["swift"],
+      "initializationOptions": {},
+      "settings": {}
+    },
+    "intelephense": {
+      "command": "intelephense",
+      "args": ["--stdio"],
+      "filetypes": ["php"],
+      "initializationOptions": {
+        "storagePath": "/tmp/intelephense"
+      }
+    },
+    "clangd": {
+      "command": "clangd",
+      "args": [],
+      "rootPatterns": ["compile_flags.txt", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "initializationOptions": {},
+      "filetypes": ["c"]
+    }
+  }
+}
