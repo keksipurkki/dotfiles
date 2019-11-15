@@ -3,7 +3,7 @@
 prefix=com.github
 
 modules=(
-  "https://github.com/keksipurkki/coc.nvim.git#release"
+  "https://github.com/neoclide/coc.nvim.git#release"
   "https://github.com/leafgarland/typescript-vim.git"
   "https://github.com/pangloss/vim-javascript.git"
   "https://github.com/ekalinin/Dockerfile.vim.git"
