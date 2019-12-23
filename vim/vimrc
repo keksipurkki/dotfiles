@@ -158,3 +158,6 @@ endif
 
 " Misc {{{1
 let g:airline_powerline_fonts = 0
+
+au BufNewFile,BufRead *.ts setlocal filetype=typescript
+au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
