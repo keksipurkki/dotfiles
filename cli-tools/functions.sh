@@ -319,7 +319,7 @@ function git_dirty
     return
   fi
   if test -n "$(git status --porcelain 2> /dev/null)"; then
-    echo -e '[\xF0\x9F\x92\xA9] '
+    echo -e '[\xF0\x9F\x92\xA9]'
   fi
 }
 
@@ -328,14 +328,14 @@ function git_dirty
 function git_branch
 {
   local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-  [[ -n "$branch" ]] && printf "[%s] " $branch
+  [[ -n "$branch" ]] && printf "[%s]" $branch
 }
 
 # @brief A good looking git-aware prompt
 # example usage: export PS1="$(git_prompt)"
 function git_prompt
 {
-  printf "\$(git_dirty)\$(git_branch)[\W]"
+  printf "\$(git_dirty)\$(git_branch)"
 }
 
 function git_sed

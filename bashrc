@@ -22,8 +22,8 @@
 ##############################################################################
 
 # Functions
-if [[ -r $(dirname $BASH_SOURCE)/cli-tools/functions.sh ]]; then
-  source $(dirname $BASH_SOURCE)/cli-tools/functions.sh
+if [[ -r $HOME/Config/cli-tools/functions.sh ]]; then
+  source $HOME/Config/cli-tools/functions.sh
 else
   echo "No \`functions.sh' found." >&2
 fi
@@ -31,12 +31,10 @@ fi
 # Only proceed with the rest if running interactively
 [[ $- != *i* ]] && return
 
+fpath=(path/to/zsh-completions/src $fpath)
+autoload -Uz compinit && compinit
+#eval $(npm completion)
 eval "$(ansi_escapes)"
-
-# More goodies
-if [[ -r /usr/local/etc/bash_completion ]]; then
-  source /usr/local/etc/bash_completion
-fi
 
 # Make less more friendly for non-text input files, see lesspipe(1)
 if which lesspipe.sh &>/dev/null; then
@@ -44,14 +42,16 @@ if which lesspipe.sh &>/dev/null; then
 fi
 
 # Shell options
-shopt -s histappend
-shopt -s checkwinsize
-history -a
+#shopt -s histappend
+#shopt -s checkwinsize
+setopt PROMPT_SUBST
+#history -a
 
 # Keybindings
-bind '"\e[A":  history-search-backward'
-bind '"\e[B":  history-search-forward'
-bind '"\"\"":"\"\C-b\""'
+bindkey -e
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+bindkey -s '\"\"' '"^b"'
 
 # Alias definitions
 
@@ -109,6 +109,3 @@ vi ()
   $vim "$@"
 
 }
-
-unset PROMPT_COMMAND
-export PROMPT_COMMAND="echo -ne \"\033]0;\$PWD (on \$HOSTNAME)\007\""
