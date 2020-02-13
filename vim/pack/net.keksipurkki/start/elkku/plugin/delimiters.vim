@@ -3,7 +3,7 @@ if exists('loaded_delimited') || &cp
 endif
 
 let loaded_delimited = 1
-python << EOF
+python3 << EOF
 
 import vim
 
@@ -76,7 +76,8 @@ class DelimiterCycler(object):
                     # Reset the cycler
                     break
 
-    def _can_yield(self, (row, col), delim):
+    def _can_yield(self, pos, delim):
+        row, col = pos
         try:
             previous = vim.current.line[col-1]
         except IndexError:
@@ -85,13 +86,12 @@ class DelimiterCycler(object):
         return self.pos in [(row, col), (row, col-1)] and DelimiterCycler.delimiters.get(previous) == delim
 
 
-
 delimited_cycler___ = DelimiterCycler()
 
 EOF
 
 function! s:DelimiterCycler(delim)
-    python vim.command('return "{0}"'.format( delimited_cycler___.yield_delimiters(vim.eval('a:delim'))) )
+    python3 vim.command('return "{0}"'.format( delimited_cycler___.yield_delimiters(vim.eval('a:delim'))))
 endfunction
 
 inoremap <expr> { <SID>DelimiterCycler('brace')
