@@ -104,7 +104,7 @@ function! CSVFormat()
 endfunction
 
 command! -range=% PrettierHtml <line1>,<line2>:!tidy -qi -utf8 || true
-command! -range=% PrettierSwift <line1>,<line2>:!swift format
+command! -range=% PrettierSwift <line1>,<line2>:!swiftformat --quiet
 command! -range=% PrettierCSV :call CSVFormat()
 
 " Filetypes {{{1
@@ -117,7 +117,7 @@ let g:is_bash=1
 let g:tex_flavor = 'latex'
 let g:tex_comment_nospell= 1
 let g:tex_nine_config = {
-      \'compiler' : 'latex',
+      \'compiler' : 'xelatex',
       \'viewer': {'app': 'open', 'target': 'pdf'},
       \}
 

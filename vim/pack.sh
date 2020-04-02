@@ -18,6 +18,7 @@ modules=(
   "https://github.com/editorconfig/editorconfig-vim.git"
   "https://github.com/vim-scripts/confluencewiki.vim.git"
   "https://github.com/modille/groovy.vim"
+  "https://github.com/PProvost/vim-ps1.git"
 )
 
 mkdir -p pack/$prefix/start
