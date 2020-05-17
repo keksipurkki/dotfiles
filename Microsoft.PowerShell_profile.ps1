@@ -1,16 +1,3 @@
-# Environment
-$env:MYVIMRC = "$HOME/Config/vim/vimrc"
-$env:VIMINIT = "source $HOME/Config/vim/vimrc"
-
-$env:PATH = "$HOME/.local/bin:$env:PATH"
-$env:PATH="$HOME/.local/bin:$env:PATH"
-$env:PATH="$HOME/Library/Python/3.7/bin:$env:PATH"
-$env:PATH="/usr/local/opt/python/libexec/bin:$env:PATH"
-$env:PATH="$HOME/Library/Developer/Toolchains/swift-latest.xctoolchain/usr/bin/:$env:PATH"
-
-$env:NODE_PATH="/usr/local/lib/node_modules"
-$env:EDITOR = "mvim -v"
-
 # Aliases
 function vim { mvim -v $args }
 function vi { mvim --remote-tab-silent $args }
