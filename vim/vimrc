@@ -103,9 +103,10 @@ function! CSVFormat()
   global/^\s*$/d
 endfunction
 
-command! -range=% PrettierHtml <line1>,<line2>:!tidy -qi -utf8 || true
-command! -range=% PrettierSwift <line1>,<line2>:!swiftformat --quiet
-command! -range=% PrettierCSV :call CSVFormat()
+command! -range=% HTMLPrettier <line1>,<line2>:!tidy -qi -utf8 || true
+command! -range=% SwiftPrettier <line1>,<line2>:!swiftformat --quiet
+command! -range=% JavaPrettier <line1>,<line2>:!google-java-format -
+command! -range=% CSVPrettier :call CSVFormat()
 
 " Filetypes {{{1
 autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
