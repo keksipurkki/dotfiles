@@ -39,6 +39,7 @@ set smartcase
 set et
 set t_Co=256
 set vb t_vb=
+set pythonthreedll=/usr/local/Frameworks/Python.framework/Versions/3.8/Python
 
 " Jump to the line that was last edited
 function! LastLine()
