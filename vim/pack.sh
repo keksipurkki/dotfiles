@@ -4,13 +4,11 @@ prefix=com.github
 
 modules=(
   "https://github.com/neoclide/coc.nvim.git#release"
-  "https://github.com/leafgarland/typescript-vim.git"
   "https://github.com/pangloss/vim-javascript.git"
   "https://github.com/ekalinin/Dockerfile.vim.git"
   "https://github.com/scrooloose/nerdtree.git"
   "https://github.com/tyru/restart.vim.git"
   "https://github.com/bling/vim-airline.git"
-  "https://github.com/altercation/vim-colors-solarized.git"
   "https://github.com/ap/vim-css-color.git"
   "https://github.com/hash-bang/vim-php-autolint.git"
   "https://github.com/vim-scripts/TeX-9.git"
@@ -19,6 +17,8 @@ modules=(
   "https://github.com/vim-scripts/confluencewiki.vim.git"
   "https://github.com/modille/groovy.vim"
   "https://github.com/PProvost/vim-ps1.git"
+  "https://github.com/bfrg/vim-cpp-modern.git"
+  "https://git.sr.ht/~romainl/vim-bruin"
 )
 
 mkdir -p pack/$prefix/start

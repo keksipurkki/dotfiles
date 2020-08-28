@@ -154,9 +154,7 @@ function! ColorFixes()
 endfunction
 autocmd BufReadPost * silent call ColorFixes()
 
-if !has('gui_running')
-  colorscheme terminal
-endif
+colorscheme plain
 
 " Misc {{{1
 let g:airline_powerline_fonts = 0
@@ -166,3 +164,4 @@ au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 
 " C++
 let $CPATH = "/Library/Developer/CommandLineTools/usr/include/c++/v1:/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"
+let g:cpp_simple_highlight = 1
