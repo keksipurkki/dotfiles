@@ -570,3 +570,9 @@ __posh_git_ps1_upstream_divergence ()
     : ${__POSH_BRANCH_BEHIND_BY:=0}
     return $return_code
 }
+
+if [[ "$SHELL" =~ "zsh" ]]; then
+  precmd() {
+    __posh_git_ps1 '%~ ' '$ '
+  }
+fi
