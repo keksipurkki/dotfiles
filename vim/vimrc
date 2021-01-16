@@ -1,7 +1,4 @@
 " vim: nowrap fdm=marker
-"
-" File:         vimrc
-" Last Change:  2019-10-12
 
 execute "set packpath+=" . expand('<sfile>:h')
 syntax on
@@ -17,7 +14,7 @@ let maplocalleader = ";"
 set shellcmdflag+=l " Read ~/.profile
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
-set guifont=Monego:h14 " Monaco with bold/italic font weights
+set guifont=Monego:h14
 set hidden
 set autoread
 set directory=/tmp
