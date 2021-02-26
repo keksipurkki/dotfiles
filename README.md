@@ -6,14 +6,17 @@
 
 git clone https://github.com/keksipurkki/dotfiles.git $HOME/Config
 
-cat >> $HOME/.profile << "EOF"
+cat >> $HOME/.zprofile << "EOF"
 
 export DOTFILES=$HOME/Config
-export MYVIMRC=$DOTFILES/vim/vimrc
-export VIMINIT="source $MYVIMRC"
-export TIGRC_USER=$DOTFILES/tigrc
-source $DOTFILES/bashrc
+
+# Environment variables
+# export EDITOR='mvim -v'
+# ...
+#
+
+source $DOTFILES/zshrc
+source $DOTFILES/git-prompt.sh
 
 EOF
-
 ```
