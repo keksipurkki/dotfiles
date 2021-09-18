@@ -14,7 +14,7 @@ let maplocalleader = ";"
 set shellcmdflag+=l " Read ~/.profile
 set completeopt=longest,menuone
 set guicursor+=a:blinkon0
-set guifont=Monego:h14
+set guifont=SF\ Mono\ Medium:h14
 set hidden
 set autoread
 set directory=/tmp
@@ -143,9 +143,6 @@ function! ColorFixes()
   hi Conceal guifg=#000000   guibg=#ffffff  gui=none ctermfg=16 ctermbg=231 cterm=none
   hi LineNr guibg=white guifg=darkgrey
   hi SignColumn guibg=white
-
-  " Simplify the color scheme
-  hi Comment guifg=#cccccc gui=bold
 
 endfunction
 autocmd BufReadPost * silent call ColorFixes()

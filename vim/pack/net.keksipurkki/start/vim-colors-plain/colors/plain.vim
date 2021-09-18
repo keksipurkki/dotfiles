@@ -38,7 +38,7 @@ let s:light_cyan      = { "gui": "#4FB8CC", "cterm": "14"  }
 let s:dark_green      = { "gui": "#10A778", "cterm": "2"   }
 let s:light_green     = { "gui": "#5FD7A7", "cterm": "10"  }
 let s:dark_purple     = { "gui": "#523C79", "cterm": "5"   }
-let s:light_purple    = { "gui": "#6855DE", "cterm": "13"  }
+let s:light_purple    = { "gui": "#9400d3", "cterm": "13"  }
 let s:light_yellow    = { "gui": "#F3E430", "cterm": "11"  }
 let s:dark_yellow     = { "gui": "#A89C14", "cterm": "3"   }
 
@@ -77,7 +77,7 @@ else
   let s:yellow           = s:dark_yellow
   let s:visual           = s:light_blue
   let s:cursor_line      = s:lightest_gray
-  let s:constant         = s:dark_blue
+  let s:constant         = s:light_purple
   let s:comment          = s:light_gray
   let s:selection        = s:light_yellow
   let s:selection_fg     = s:light_black
@@ -158,7 +158,7 @@ hi! link SignColumn       LineNr
 call s:h("Comment",       {"fg": s:comment, "gui": "italic"})
 
 " __Constant__
-call s:h("Constant",      {"fg": s:constant})
+call s:h("Constant",      {"fg": s:constant, "gui": "bold"})
 hi! link Character        Constant
 hi! link Number           Constant
 hi! link Boolean          Constant
