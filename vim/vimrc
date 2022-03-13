@@ -17,6 +17,7 @@ set guicursor+=a:blinkon0
 set guifont=SF\ Mono\ Medium:h14
 set hidden
 set autoread
+set nofixendofline
 set directory=/tmp
 set guioptions-=T
 set ignorecase
