@@ -12,7 +12,9 @@ let mapleader = ";"
 let maplocalleader = ";"
 
 set shellcmdflag+=l " Read ~/.profile
-set completeopt=longest,menuone
+if has("gui_running")
+  set completeopt=longest,menuone
+endif
 set guicursor+=a:blinkon0
 set guifont=SF\ Mono\ Medium:h14
 set hidden
@@ -110,6 +112,7 @@ command! -range=% CSVPrettier :call CSVFormat()
 autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
 autocmd FileType markdown setlocal spell
 autocmd FileType txt setlocal spell
+autocmd FileType gitcommit execute ":silent! CocDisable"
 
 let g:is_bash=1
 

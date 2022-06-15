@@ -77,7 +77,7 @@ else
   let s:yellow           = s:dark_yellow
   let s:visual           = s:light_blue
   let s:cursor_line      = s:lightest_gray
-  let s:constant         = s:black
+  let s:constant         = s:subtle_black
   let s:comment          = s:light_gray
   let s:selection        = s:light_yellow
   let s:selection_fg     = s:light_black
