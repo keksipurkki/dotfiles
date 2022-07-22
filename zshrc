@@ -66,6 +66,7 @@ alias yle-dl="yle-dl --vfat"
 alias whereis="fd"
 alias git-clean-commits='git rebase -i $(git merge-base --fork-point master)'
 alias ncu='ncu -t minor'
+alias cert-bundle="openssl storeutl -noout -text -certs"
 
 # Mac OSX-only aliases
 if [[ "$(uname)" = Darwin ]]; then
