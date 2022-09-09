@@ -12,9 +12,9 @@ let mapleader = ";"
 let maplocalleader = ";"
 
 set shellcmdflag+=l " Read ~/.profile
-if has("gui_running")
-  set completeopt=longest,menuone
-endif
+"if has("gui_running")
+"  set completeopt=longest,menuone
+"endif
 set guicursor+=a:blinkon0
 set guifont=SF\ Mono\ Medium:h14
 set hidden
@@ -162,3 +162,6 @@ au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
 " C++
 let $CPATH = "/Library/Developer/CommandLineTools/usr/include/c++/v1:/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"
 let g:cpp_simple_highlight = 1
+
+" Highlight the symbol and its references when holding the cursor.
+"autocmd CursorHold * silent call CocActionAsync('highlight')
