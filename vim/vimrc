@@ -64,6 +64,9 @@ autocmd BufReadPost * silent call LastLine()
 autocmd BufReadPost * silent call IndentReset()
 autocmd VimLeave * macaction terminate:
 
+" CoC
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
 " Git
 command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
 command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '' )\"`

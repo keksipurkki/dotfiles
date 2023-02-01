@@ -242,7 +242,7 @@ call s:h("Pmenu",         {"fg": s:norm, "bg": s:cursor_line})
 hi! link PmenuSbar        Pmenu
 hi! link PmenuThumb       Pmenu
 " __PmenuSel__
-call s:h("PmenuSel",      {"fg": s:norm, "bg": s:bg_subtle, "gui": "bold"})
+call s:h("PmenuSel",      {"fg": s:norm, "bg": s:bg, "gui": "bold"})
 
 hi! link TabLine          Normal
 hi! link TabLineSel       Keyword
