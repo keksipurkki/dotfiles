@@ -340,10 +340,10 @@ function git_prompt
 
 function git_sed
 {
-  git grep -l "$1" | xargs sed -i '' -e "s|$1|$2|g"
+  git ls-files -z | xargs -0 sed -i -e $@
 }
 
-function git_browse 
+function git_browse
 {
   bash $(dirname $BASH_SOURCE)/git_browse $@
 }
