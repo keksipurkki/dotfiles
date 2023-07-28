@@ -68,6 +68,13 @@ alias git-clean-commits='git rebase -i $(git merge-base --fork-point master)'
 alias ncu='ncu -t minor'
 alias cert-bundle="openssl storeutl -noout -text -certs"
 
+function video_encode() {
+  for video_file; do
+    encoded=_$(basename ${video_file%.*}).mkv
+    ffmpeg -i "$video_file" -vf scale=-1:720 -map 0 -b:v 1300k -c:v hevc_videotoolbox "$encoded"
+  done
+}
+
 # Mac OSX-only aliases
 if [[ "$(uname)" = Darwin ]]; then
   alias tar='COPYFILE_DISABLE=true tar'
