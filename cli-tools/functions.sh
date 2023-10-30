@@ -445,3 +445,8 @@ function rsa_decrypt()
   local secret_key=${2?}
   openssl rsautl -oaep -decrypt -in "$encrypted" -inkey "$secret_key"
 }
+
+function view_certificate ()
+{
+  openssl s_client -showcerts -connect $1:443
+}
