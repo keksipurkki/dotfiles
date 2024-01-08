@@ -64,7 +64,7 @@ alias rsync='rsync -h -P'
 alias tunnelview="lsof -i4 -s TCP:LISTEN -n | awk '/^ssh/{print \$(NF-1),\$2}'"
 alias yle-dl="yle-dl --vfat"
 alias whereis="fd"
-alias git-clean-commits='git rebase -i $(git merge-base --fork-point master)'
+alias git-clean-commits='git rebase -i $(git merge-base --fork-point origin/master)'
 alias ncu='ncu -t minor'
 alias cert-bundle="openssl storeutl -noout -text -certs"
 

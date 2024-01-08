@@ -164,13 +164,6 @@ colorscheme plain
 " Misc {{{1
 let g:airline_powerline_fonts = 0
 
-au BufNewFile,BufRead *.ts setlocal filetype=typescript
-au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
-
-" C++
-let $CPATH = "/Library/Developer/CommandLineTools/usr/include/c++/v1:/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include"
-let g:cpp_simple_highlight = 1
-
 " Fortran
 let fortran_free_source=1
 let fortran_do_enddo=1
