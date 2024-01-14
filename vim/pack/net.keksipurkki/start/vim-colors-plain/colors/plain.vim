@@ -38,7 +38,7 @@ let s:light_cyan      = { "gui": "#4FB8CC", "cterm": "14"  }
 let s:dark_green      = { "gui": "#10A778", "cterm": "2"   }
 let s:light_green     = { "gui": "#5FD7A7", "cterm": "10"  }
 let s:dark_purple     = { "gui": "#523C79", "cterm": "5"   }
-let s:light_purple    = { "gui": "#9400d3", "cterm": "13"  }
+let s:light_purple    = { "gui": "#6855DE", "cterm": "13"  }
 let s:light_yellow    = { "gui": "#F3E430", "cterm": "11"  }
 let s:dark_yellow     = { "gui": "#A89C14", "cterm": "3"   }
 
@@ -77,7 +77,7 @@ else
   let s:yellow           = s:dark_yellow
   let s:visual           = s:light_blue
   let s:cursor_line      = s:lightest_gray
-  let s:constant         = s:subtle_black
+  let s:constant         = s:medium_gray
   let s:comment          = s:light_gray
   let s:selection        = s:light_yellow
   let s:selection_fg     = s:light_black
