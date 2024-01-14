@@ -18,9 +18,7 @@ modules=(
   "https://github.com/vim-scripts/confluencewiki.vim.git"
   "https://github.com/modille/groovy.vim"
   "https://github.com/PProvost/vim-ps1.git"
-  "https://github.com/bfrg/vim-cpp-modern.git"
   "https://github.com/clojure-vim/clojure.vim.git"
-  "https://git.sr.ht/~romainl/vim-bruin"
 )
 
 mkdir -p pack/$prefix/start
