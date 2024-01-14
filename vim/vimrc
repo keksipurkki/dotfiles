@@ -12,11 +12,7 @@ let mapleader = ";"
 let maplocalleader = ";"
 
 set shellcmdflag+=l " Read ~/.profile
-"if has("gui_running")
-"  set completeopt=longest,menuone
-"endif
 set guicursor+=a:blinkon0
-set guifont=SF\ Mono\ Medium:h14
 set hidden
 set autoread
 set nofixendofline
@@ -39,6 +35,11 @@ set smartcase
 set et
 set t_Co=256
 set vb t_vb=
+
+" Font
+set guifont=Fixedsys\ Excelsior:h16
+set noanti
+set macligatures
 
 " Jump to the line that was last edited
 function! LastLine()
