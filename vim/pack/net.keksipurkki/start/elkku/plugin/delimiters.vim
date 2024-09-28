@@ -22,22 +22,22 @@ class DelimiterCycler(object):
 
     cycles = {
       'paren': [
-        "()\<Left>",
-        "\<Esc>lcl",
-        "())\<Left>\<Left>",
-        "\<Esc>hc4l"
+        r"()\<Left>",
+        r"\<Esc>lcl",
+        r"())\<Left>\<Left>",
+        r"\<Esc>hc4l"
       ],
       'bracket': [
-        "[]\<Left>",
-        "\<Esc>lcl",
-        "[]]\<Left>\<Left>",
-        "\<Esc>hc4l"
+        r"[]\<Left>",
+        r"\<Esc>lcl",
+        r"[]]\<Left>\<Left>",
+        r"\<Esc>hc4l"
       ],
       'brace': [
-        "{}\<Left>",
-        "\<Esc>lcl",
-        "{}}\<Left>\<Left>",
-        "\<Esc>hc4l"
+        r"{}\<Left>",
+        r"\<Esc>lcl",
+        r"{}}\<Left>\<Left>",
+        r"\<Esc>hc4l"
     ]}
 
     delimiters = {

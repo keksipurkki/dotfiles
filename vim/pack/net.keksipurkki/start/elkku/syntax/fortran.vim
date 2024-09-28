@@ -65,3 +65,5 @@ hi! def link fortranUnitHeader	Keyword
 "hi def link fortranTab		Error
 hi! def link PreProc Comment
 hi! def link PreCondit Comment
+
+let b:fortran_dialect="f08"

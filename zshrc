@@ -67,6 +67,8 @@ alias whereis="fd"
 alias git-clean-commits='git rebase -i $(git merge-base --fork-point origin/master)'
 alias ncu='ncu -t minor'
 alias cert-bundle="openssl storeutl -noout -text -certs"
+alias gfortran='gfortran -ffree-form'
+alias ls='ls --color=always'
 
 function video_encode() {
   for video_file; do
