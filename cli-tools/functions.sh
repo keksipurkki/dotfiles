@@ -272,7 +272,7 @@ function parallel_download
 #
 # @usage sshfs SERVER:REMOTE_DIRECTORY # ~/Remote/SERVER_REMOTE_DIRECTORY
 #
-function sshfs
+function sshfs____
 {
   local src=$1
   local folder=$(basename "${src##*:}")
