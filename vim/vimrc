@@ -37,8 +37,8 @@ set t_Co=256
 set vb t_vb=
 
 " Font
-set guifont=Fixedsys\ Excelsior:h16
-set noanti
+set guifont=SF\ Mono:h16
+set anti
 set macligatures
 
 " Jump to the line that was last edited
