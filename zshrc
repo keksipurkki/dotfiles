@@ -119,4 +119,4 @@ vi ()
   $vim "$@"
 
 }
-alias vim=mvim
+alias vim='mvim -v'
