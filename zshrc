@@ -33,7 +33,8 @@ fi
 
 fpath=(path/to/zsh-completions/src $fpath)
 autoload -Uz compinit && compinit
-#eval $(npm completion)
+source <(helm completion zsh)
+source <(npm completion)
 eval "$(ansi_escapes)"
 
 # Make less more friendly for non-text input files, see lesspipe(1)
