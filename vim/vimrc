@@ -70,9 +70,6 @@ autocmd BufReadPost * silent call LastLine()
 autocmd BufReadPost * silent call IndentReset()
 autocmd VimLeave * macaction terminate:
 
-" CoC
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
 " Git
 command! GitRoot :execute 'lcd' systemlist('git rev-parse --show-toplevel')[0]
 command! -nargs=* GitLoadEm :args `set -f ; printf \"\%s\\n\" \"$(git grep --cached -Il '' )\"`
@@ -121,7 +118,6 @@ command! -range=% CSVPrettier :call CSVFormat()
 autocmd BufRead,BufNewFile *.cwiki setlocal ft=confluencewiki
 autocmd FileType markdown setlocal spell
 autocmd FileType txt setlocal spell
-autocmd FileType gitcommit execute ":silent! CocDisable"
 
 let g:is_bash=1
 
@@ -169,12 +165,17 @@ let g:airline_powerline_fonts = 0
 let fortran_free_source=1
 let fortran_do_enddo=1
 
-" Highlight the symbol and its references when holding the cursor.
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-
 " Yaml
 augroup yaml_fix
     autocmd!
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 augroup END
+
+" LSP
+packadd lsp
+call LspAddServer([#{
+      \    name: 'typescriptlang',
+      \    filetype: ['javascript', 'typescript', 'typescriptreact'],
+      \    path: '/opt/homebrew/bin/typescript-language-server',
+      \    args: ['--stdio'],
+      \  }])
