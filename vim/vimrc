@@ -176,6 +176,6 @@ packadd lsp
 call LspAddServer([#{
       \    name: 'typescriptlang',
       \    filetype: ['javascript', 'typescript', 'typescriptreact'],
-      \    path: '/opt/homebrew/bin/typescript-language-server',
+      \    path: 'typescript-language-server',
       \    args: ['--stdio'],
       \  }])
