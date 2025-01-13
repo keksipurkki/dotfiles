@@ -18,6 +18,7 @@ modules=(
   "https://github.com/modille/groovy.vim"
   "https://github.com/PProvost/vim-ps1.git"
   "https://github.com/clojure-vim/clojure.vim.git"
+  "https://github.com/yegappan/lsp.git#main"
 )
 
 mkdir -p pack/$prefix/start
