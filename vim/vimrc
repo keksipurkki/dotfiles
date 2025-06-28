@@ -11,6 +11,7 @@ filetype plugin indent on
 let mapleader = ";"
 let maplocalleader = ";"
 
+set completeopt=longest,menuone
 set shellcmdflag+=l " Read ~/.profile
 set guicursor+=a:blinkon0
 set hidden
@@ -83,8 +84,8 @@ noremap <C-L> :redraw!<CR>
 
 " For debbuging syntax highlighting
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+      \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+      \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " Common typos
 cabbrev <expr> E ((getcmdtype() == ':' && getcmdpos() <= 2)? 'e' : 'E')
@@ -167,15 +168,22 @@ let fortran_do_enddo=1
 
 " Yaml
 augroup yaml_fix
-    autocmd!
-    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
+  autocmd!
+  autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
 augroup END
 
 " LSP
 packadd lsp
+
+call LspOptionsSet(#{
+      \   noNewlineInCompletion: v:true,
+      \ })
+
 call LspAddServer([#{
       \    name: 'typescriptlang',
       \    filetype: ['javascript', 'typescript', 'typescriptreact'],
       \    path: 'typescript-language-server',
       \    args: ['--stdio'],
       \  }])
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
