@@ -3,7 +3,6 @@
 prefix=com.github
 
 modules=(
-  "https://github.com/leafgarland/typescript-vim.git"
   "https://github.com/pangloss/vim-javascript.git"
   "https://github.com/ekalinin/Dockerfile.vim.git"
   "https://github.com/scrooloose/nerdtree.git"
