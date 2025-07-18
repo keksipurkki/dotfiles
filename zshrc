@@ -70,6 +70,7 @@ alias ncu='ncu -t minor'
 alias cert-bundle="openssl storeutl -noout -text -certs"
 alias gfortran='gfortran -ffree-form'
 alias ls='ls --color=always'
+alias convert='magick'
 
 function video_encode() {
   for video_file; do
