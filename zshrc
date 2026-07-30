@@ -31,7 +31,6 @@ fi
 # Only proceed with the rest if running interactively
 [[ $- != *i* ]] && return
 
-fpath=(path/to/zsh-completions/src $fpath)
 autoload -Uz compinit && compinit
 source <(helm completion zsh)
 source <(npm completion)
@@ -71,6 +70,7 @@ alias cert-bundle="openssl storeutl -noout -text -certs"
 alias gfortran='gfortran -ffree-form'
 alias ls='ls --color=always'
 alias convert='magick'
+alias clean_latex='rm *.aux *.out *.log'
 
 function video_encode() {
   for video_file; do
