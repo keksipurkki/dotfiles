@@ -1,17 +1,13 @@
-# bash/zsh git prompt support
+# zsh git prompt support
 #
 # Copyright (C) 2020 David Xu
+# Copyright (C) 2026 Elias Toivanen
 #
 # Based on the earlier work by Shawn O. Pearce <spearce@spearce.org>
 # Distributed under the GNU General Public License, version 2.0.
 #
-# This script allows you to see the current branch in your prompt,
-# posh-git style.
-#
-# You will most likely want to make use of either `__posh_git_ps1` or
-# `__posh_git_echo`. Refer to the documentation of the functions for additional
-# information.
-#
+# This script has been modified by Elias Toivanen in 2026.
+# Optimized for zsh-only environments.
 #
 
 # Convenience function to set PS1 to show git status. Must supply two
@@ -42,10 +38,10 @@ __posh_color () {
 
 # Echoes the git status string.
 __posh_git_echo () {
-    if [ ! -d .git ]; then
-        return;
-    fi
+    local g=$(__posh_gitdir)
+    [[ -z "$g" ]] && return
 
+    # Color definitions
     local Red='\033[0;31m'
     local Green='\033[0;32m'
     local BrightRed='\033[0;91m'
@@ -53,53 +49,26 @@ __posh_git_echo () {
     local BrightYellow='\033[1;30m'
     local BrightCyan='\033[1;30m'
 
-    local DefaultForegroundColor=$(__posh_color '\e[m') # Default no color
-    local DefaultBackgroundColor=
-
+    local DefaultForegroundColor=$(__posh_color '\e[m')
     local BeforeText='['
-    local BeforeForegroundColor=$(__posh_color $BrightYellow) # Yellow
-    local BeforeBackgroundColor=
+    local BeforeForegroundColor=$(__posh_color $BrightYellow)
     local DelimText=' |'
-    local DelimForegroundColor=$(__posh_color $BrightYellow) # Yellow
-    local DelimBackgroundColor=
-
+    local DelimForegroundColor=$(__posh_color $BrightYellow)
     local AfterText=']'
-    local AfterForegroundColor=$(__posh_color $BrightYellow) # Yellow
-    local AfterBackgroundColor=
-
-    local BranchForegroundColor=$(__posh_color $BrightCyan)  # Cyan
-    local BranchBackgroundColor=
-    local BranchAheadForegroundColor=$(__posh_color $BrightGreen) # Green
-    local BranchAheadBackgroundColor=
-    local BranchBehindForegroundColor=$(__posh_color $BrightRed) # Red
-    local BranchBehindBackgroundColor=
-    local BranchBehindAndAheadForegroundColor=$(__posh_color $BrightYellow) # Yellow
-    local BranchBehindAndAheadBackgroundColor=
-
-    local BeforeIndexText=''
-    local BeforeIndexForegroundColor=$(__posh_color $Green) # Dark green
-    local BeforeIndexBackgroundColor=
-
-    local IndexForegroundColor=$(__posh_color $Green) # Dark green
-    local IndexBackgroundColor=
-
-    local WorkingForegroundColor=$(__posh_color $Red) # Dark red
-    local WorkingBackgroundColor=
-
-    local StashForegroundColor=$(__posh_color $BrightRed) # Red
-    local StashBackgroundColor=
+    local AfterForegroundColor=$(__posh_color $BrightYellow)
+    local BranchForegroundColor=$(__posh_color $BrightCyan)
+    local BranchAheadForegroundColor=$(__posh_color $BrightGreen)
+    local BranchBehindForegroundColor=$(__posh_color $BrightRed)
+    local IndexForegroundColor=$(__posh_color $Green)
+    local WorkingForegroundColor=$(__posh_color $Red)
+    local StashForegroundColor=$(__posh_color $BrightRed)
     local BeforeStash='('
     local AfterStash=')'
-
-    local LocalDefaultStatusSymbol=''
     local LocalWorkingStatusSymbol=' !'
     local LocalWorkingStatusColor=$(__posh_color "$Red")
     local LocalStagedStatusSymbol=' ~'
     local LocalStagedStatusColor=$(__posh_color "$BrightCyan")
-
-    local RebaseForegroundColor=$(__posh_color '\e[0m') # reset
-    local RebaseBackgroundColor=
-    local BranchBehindAndAheadDisplay="full"
+    local RebaseForegroundColor=$(__posh_color '\e[0m')
 
     local BranchIdenticalStatusSymbol=''
     local BranchAheadStatusSymbol=''
@@ -116,211 +85,111 @@ __posh_git_echo () {
       BranchWarningStatusSymbol=' ?'
     fi
 
-    local is_detached=false
-
-    local g=$(__posh_gitdir)
-    if [ -z "$g" ]; then
-        return # not a git directory
+    # Detection of special states (rebase, merge, etc.)
+    local rebase='' b='' step='' total=''
+    if [[ -d "$g/rebase-merge" ]]; then
+        b=$(<"$g/rebase-merge/head-name" 2>/dev/null)
+        step=$(<"$g/rebase-merge/msgnum" 2>/dev/null)
+        total=$(<"$g/rebase-merge/end" 2>/dev/null)
+        rebase=$([[ -f "$g/rebase-merge/interactive" ]] && echo "|REBASE-i" || echo "|REBASE-m")
+    elif [[ -d "$g/rebase-apply" ]]; then
+        step=$(<"$g/rebase-apply/next" 2>/dev/null)
+        total=$(<"$g/rebase-apply/last" 2>/dev/null)
+        if [[ -f "$g/rebase-apply/rebasing" ]]; then rebase='|REBASE'
+        elif [[ -f "$g/rebase-apply/applying" ]]; then rebase='|AM'
+        else rebase='|AM/REBASE'; fi
+    elif [[ -f "$g/MERGE_HEAD" ]]; then rebase='|MERGING'
+    elif [[ -f "$g/CHERRY_PICK_HEAD" ]]; then rebase='|CHERRY-PICKING'
+    elif [[ -f "$g/REVERT_HEAD" ]]; then rebase='|REVERTING'
+    elif [[ -f "$g/BISECT_LOG" ]]; then rebase='|BISECTING'
     fi
 
-    local rebase=''
-    local b=''
-    local step=''
-    local total=''
-    if [ -d "$g/rebase-merge" ]; then
-        b=$(cat "$g/rebase-merge/head-name" 2>/dev/null)
-        step=$(cat "$g/rebase-merge/msgnum" 2>/dev/null)
-        total=$(cat "$g/rebase-merge/end" 2>/dev/null)
-        if [ -f "$g/rebase-merge/interactive" ]; then
-            rebase='|REBASE-i'
-        else
-            rebase='|REBASE-m'
-        fi
-    else
-        if [ -d "$g/rebase-apply" ]; then
-            step=$(cat "$g/rebase-apply/next")
-            total=$(cat "$g/rebase-apply/last")
-            if [ -f "$g/rebase-apply/rebasing" ]; then
-                rebase='|REBASE'
-            elif [ -f "$g/rebase-apply/applying" ]; then
-                rebase='|AM'
-            else
-                rebase='|AM/REBASE'
-            fi
-        elif [ -f "$g/MERGE_HEAD" ]; then
-            rebase='|MERGING'
-        elif [ -f "$g/CHERRY_PICK_HEAD" ]; then
-            rebase='|CHERRY-PICKING'
-        elif [ -f "$g/REVERT_HEAD" ]; then
-            rebase='|REVERTING'
-        elif [ -f "$g/BISECT_LOG" ]; then
-            rebase='|BISECTING'
-        fi
+    [[ -n "$step" && -n "$total" ]] && rebase="$rebase $step/$total"
 
-        b=$(git symbolic-ref HEAD 2>/dev/null) || {
-            is_detached=true
-            local output=$(git config -z --get bash.describeStyle)
-            if [ -n "$output" ]; then
-                GIT_PS1_DESCRIBESTYLE=$output
-            fi
-            b=$(
-            case "${GIT_PS1_DESCRIBESTYLE-}" in
-            (contains)
-                git describe --contains HEAD ;;
-            (branch)
-                git describe --contains --all HEAD ;;
-            (describe)
-                git describe HEAD ;;
-            (* | default)
-                git describe --tags --exact-match HEAD ;;
-            esac 2>/dev/null) ||
+    # Single git status call for everything else
+    local status_output=$(git status --branch --porcelain 2>/dev/null)
+    [[ -z "$status_output" ]] && return
 
-            b=$(cut -c1-7 "$g/HEAD" 2>/dev/null)... ||
-            b='unknown'
+    local -a status_lines=("${(f)status_output}")
+
+    # Parse first line (## branchname...upstream [ahead X, behind Y])
+    local head_line="${status_lines[1]}"
+    local isBare=false
+    if [[ "$head_line" == *"BARE:"* ]]; then isBare=true; fi
+    
+    if [[ -z "$b" ]]; then
+        b="${head_line#\#\# }"
+        b="${b%%...*}"
+        if [[ "$b" == "No branch" || "$b" == "HEAD (no branch)" ]]; then
+            # Detached HEAD, fallback to describe if needed
+            b=$(git describe --tags --exact-match HEAD 2>/dev/null || cut -c1-7 "$g/HEAD" 2>/dev/null || echo "unknown")
             b="($b)"
-        }
-    fi
-
-    if [ -n "$step" ] && [ -n "$total" ]; then
-        rebase="$rebase $step/$total"
-    fi
-
-    local hasStash=false
-    local stashCount=0
-    local isBare=''
-
-    if [ 'true' = "$(git rev-parse --is-inside-git-dir 2>/dev/null)" ]; then
-        if [ 'true' = "$(git rev-parse --is-bare-repository 2>/dev/null)" ]; then
-            isBare='BARE:'
-        else
-            b='GIT_DIR!'
-        fi
-    elif [ 'true' = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]; then
-        if $EnableStashStatus; then
-            git rev-parse --verify refs/stash >/dev/null 2>&1 && hasStash=true
-            if $hasStash; then
-                stashCount=$(git stash list | wc -l | tr -d '[:space:]')
-            fi
         fi
     fi
 
-    # show index status and working directory status
-    local EnableFileStatus=true
-    if $EnableFileStatus; then
-        local indexAdded=0
-        local indexModified=0
-        local indexDeleted=0
-        local indexUnmerged=0
-        local filesAdded=0
-        local filesModified=0
-        local filesDeleted=0
-        local filesUnmerged=0
-        while IFS="\n" read -r tag rest
-        do
-            case "${tag:0:1}" in
-                A )
-                    (( indexAdded++ ))
-                    ;;
-                M )
-                    (( indexModified++ ))
-                    ;;
-                T )
-                    (( indexModified++ ))
-                    ;;
-                R )
-                    (( indexModified++ ))
-                    ;;
-                C )
-                    (( indexModified++ ))
-                    ;;
-                D )
-                    (( indexDeleted++ ))
-                    ;;
-                U )
-                    (( indexUnmerged++ ))
-                    ;;
-            esac
-            case "${tag:1:1}" in
-                \? )
-                    (( filesAdded++ ))
-                    ;;
-                A )
-                    (( filesAdded++ ))
-                    ;;
-                M )
-                    (( filesModified++ ))
-                    ;;
-                T )
-                    (( filesModified++ ))
-                    ;;
-                D )
-                    (( filesDeleted++ ))
-                    ;;
-                U )
-                    (( filesUnmerged++ ))
-                    ;;
-            esac
-        done <<< "`git status --porcelain 2>/dev/null`"
+    # Status counts using zsh array filtering (much faster)
+    local indexAdded=${#${(M)status_lines:#A? *}}
+    local indexModified=${#${(M)status_lines:#[MRTC]? *}}
+    local indexDeleted=${#${(M)status_lines:#D? *}}
+    local indexUnmerged=${#${(M)status_lines:#U? *}}
+    
+    local filesAdded=${#${(M)status_lines:#?\? *}}
+    local filesModified=${#${(M)status_lines:#?[MT] *}}
+    local filesDeleted=${#${(M)status_lines:#?D *}}
+    local filesUnmerged=${#${(M)status_lines:#?U *}}
+
+    # Stash count (avoiding wc -l)
+    local stashCount=0 hasStash=false
+    if git rev-parse --verify -q refs/stash >/dev/null 2>&1; then
+        hasStash=true
+        stashCount=${#${(f)"$(git stash list 2>/dev/null)"}}
     fi
 
-    local gitstring=
-    local branchstring="$isBare${b##refs/heads/}"
+    local gitstring=""
+    local branchstring="$([[ "$isBare" == "true" ]] && echo "BARE:" || echo "")${b##refs/heads/}"
 
-    gitstring="$BeforeBackgroundColor$BeforeForegroundColor$BeforeText"
-    gitstring+="$BranchBackgroundColor$BranchForegroundColor$branchstring$BranchIdenticalStatusSymbol"
-    gitstring+="${rebase:+$RebaseForegroundColor$RebaseBackgroundColor$rebase}"
+    gitstring="$BeforeForegroundColor$BeforeText"
+    gitstring+="$BranchForegroundColor$branchstring$BranchIdenticalStatusSymbol"
+    gitstring+="${rebase:+$RebaseForegroundColor$rebase}"
 
-    # index status
-    local ShowStatusWhenZero=false
-    if $EnableFileStatus; then
-        local indexCount="$(( $indexAdded + $indexModified + $indexDeleted + $indexUnmerged ))"
-        local workingCount="$(( $filesAdded + $filesModified + $filesDeleted + $filesUnmerged ))"
+    local indexCount=$(( indexAdded + indexModified + indexDeleted + indexUnmerged ))
+    local workingCount=$(( filesAdded + filesModified + filesDeleted + filesUnmerged ))
 
-        if (( $indexCount != 0 )) || $ShowStatusWhenZero; then
-            gitstring+="$IndexBackgroundColor$IndexForegroundColor +$indexAdded ~$indexModified -$indexDeleted"
-        fi
-        if (( $indexUnmerged != 0 )); then
-            gitstring+=" $IndexBackgroundColor$IndexForegroundColor!$indexUnmerged"
-        fi
-        if (( $indexCount != 0 && ($workingCount != 0 || $ShowStatusWhenZero) )); then
-            gitstring+="$DelimBackgroundColor$DelimForegroundColor$DelimText"
-        fi
-        if (( $workingCount != 0 )) || $ShowStatusWhenZero; then
-            gitstring+="$WorkingBackgroundColor$WorkingForegroundColor +$filesAdded ~$filesModified -$filesDeleted"
-        fi
-        if (( $filesUnmerged != 0 )); then
-            gitstring+=" $WorkingBackgroundColor$WorkingForegroundColor!$filesUnmerged"
-        fi
-
-        local localStatusSymbol=$LocalDefaultStatusSymbol
-        local localStatusColor=$DefaultForegroundColor
-
-        if (( workingCount != 0 )); then
-            localStatusSymbol=$LocalWorkingStatusSymbol
-            localStatusColor=$LocalWorkingStatusColor
-        elif (( indexCount != 0 )); then
-            localStatusSymbol=$LocalStagedStatusSymbol
-            localStatusColor=$LocalStagedStatusColor
-        fi
-
-        gitstring+="$DefaultBackgroundColor$localStatusColor$localStatusSymbol$DefaultForegroundColor"
-
-        local EnableStashStatus=true
-        if $EnableStashStatus && $hasStash; then
-            gitstring+="$DefaultBackgroundColor$DefaultForegroundColor $StashBackgroundColor$StashForegroundColor$BeforeStash$stashCount$AfterStash"
-        fi
+    if (( indexCount != 0 )); then
+        gitstring+="$IndexForegroundColor +$indexAdded ~$indexModified -$indexDeleted"
+        [[ $indexUnmerged != 0 ]] && gitstring+=" $IndexForegroundColor!$indexUnmerged"
+    fi
+    if (( indexCount != 0 && workingCount != 0 )); then
+        gitstring+="$DelimForegroundColor$DelimText"
+    fi
+    if (( workingCount != 0 )); then
+        gitstring+="$WorkingForegroundColor +$filesAdded ~$filesModified -$filesDeleted"
+        [[ $filesUnmerged != 0 ]] && gitstring+=" $WorkingForegroundColor!$filesUnmerged"
     fi
 
-    # after-branch text
-    gitstring+="$AfterBackgroundColor$AfterForegroundColor$AfterText$DefaultBackgroundColor$DefaultForegroundColor"
-    echo "$gitstring"
+    local localStatusSymbol=""
+    local localStatusColor=$DefaultForegroundColor
+    if (( workingCount != 0 )); then
+        localStatusSymbol=$LocalWorkingStatusSymbol
+        localStatusColor=$LocalWorkingStatusColor
+    elif (( indexCount != 0 )); then
+        localStatusSymbol=$LocalStagedStatusSymbol
+        localStatusColor=$LocalStagedStatusColor
+    fi
+
+    gitstring+="$localStatusColor$localStatusSymbol$DefaultForegroundColor"
+
+    if [[ "$hasStash" == "true" ]]; then
+        gitstring+=" $StashForegroundColor$BeforeStash$stashCount$AfterStash"
+    fi
+
+    gitstring+="$AfterForegroundColor$AfterText$DefaultForegroundColor"
+    echo -e "$gitstring"
 }
 
 # Returns the location of the .git/ directory.
 __posh_gitdir ()
 {
-    # Note: this function is duplicated in git-completion.bash
-    # When updating it, make sure you update the other one to match.
     if [ -z "${1-}" ]; then
         if [ -n "${__posh_git_dir-}" ]; then
             echo "$__posh_git_dir"
