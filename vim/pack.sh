@@ -4,7 +4,6 @@ prefix=com.github
 
 modules=(
   "https://github.com/pangloss/vim-javascript.git"
-  "https://github.com/ekalinin/Dockerfile.vim.git"
   "https://github.com/scrooloose/nerdtree.git"
   "https://github.com/tyru/restart.vim.git"
   "https://github.com/bling/vim-airline.git"
