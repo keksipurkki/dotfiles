@@ -32,8 +32,8 @@ fi
 [[ $- != *i* ]] && return
 
 autoload -Uz compinit && compinit
-source <(helm completion zsh)
-source <(npm completion)
+#source <(helm completion zsh)
+#source <(npm completion)
 eval "$(ansi_escapes)"
 
 # Make less more friendly for non-text input files, see lesspipe(1)
