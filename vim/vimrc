@@ -182,8 +182,8 @@ call LspOptionsSet(#{
 call LspAddServer([#{
       \    name: 'typescriptlang',
       \    filetype: ['javascript', 'typescript', 'typescriptreact'],
-      \    path: 'typescript-language-server',
-      \    args: ['--stdio'],
+      \    path: 'tsc',
+      \    args: ['--lsp', '--stdio'],
       \  }])
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"

@@ -15,8 +15,6 @@
 #  ...rules everything around me...$$ is the PID ya!
 ##############################################################################
 #
-# 2018-03-18
-#
 # Note to self: do not put sensitive stuff here
 #
 ##############################################################################
@@ -27,6 +25,9 @@ if [[ -r $HOME/Config/cli-tools/functions.sh ]]; then
 else
   echo "No \`functions.sh' found." >&2
 fi
+
+# Plugins
+source $HOME/Config/plugins/zsh-hist/zsh-hist.plugin.zsh
 
 # Only proceed with the rest if running interactively
 [[ $- != *i* ]] && return
@@ -49,9 +50,37 @@ setopt PROMPT_SUBST
 
 # Keybindings
 bindkey -e
-bindkey '^[[A' up-line-or-search
-bindkey '^[[B' down-line-or-search
 bindkey -s '\"\"' '"^b"'
+
+# History
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+export HISTSIZE=1000
+export SAVEHIST=$HISTSIZE
+setopt EXTENDED_HISTORY          # Write the history file in the ':start:elapsed;command' format.
+setopt HIST_EXPIRE_DUPS_FIRST    # Expire a duplicate event first when trimming history.
+setopt HIST_FIND_NO_DUPS         # Do not display a previously found event.
+setopt HIST_IGNORE_ALL_DUPS      # Delete an old recorded event if a new event is a duplicate.
+setopt HIST_IGNORE_DUPS          # Do not record an event that was just recorded again.
+setopt HIST_IGNORE_SPACE         # Do not record an event starting with a space.
+setopt HIST_SAVE_NO_DUPS         # Do not write a duplicate event to the history file.
+setopt SHARE_HISTORY             # Share history between all sessions.
+
+{
+  # Do not store typoed commands
+  autoload -Uz add-zsh-hook
+
+  command-not-found () {
+    (( ? == 127 )) && hist -fs delete -1
+  }
+
+  add-zsh-hook precmd command-not-found
+}
 
 # Alias definitions
 
