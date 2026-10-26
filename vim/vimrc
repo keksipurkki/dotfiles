@@ -186,4 +186,19 @@ call LspAddServer([#{
       \    args: ['--lsp', '--stdio'],
       \  }])
 
+call LspAddServer([#{
+      \    name: 'rust-analyzer',
+      \    filetype: ['rust'],
+      \    path: 'rust-analyzer',
+      \    args: [],
+      \    syncInit: v:true
+      \  }])
+
+autocmd FileType rust nnoremap <buffer> gd :LspGotoDefinition<CR>
+autocmd FileType rust nnoremap <buffer> K  :LspHover<CR>
+autocmd FileType rust nnoremap <buffer> gr :LspShowReferences<CR>
+autocmd FileType rust nnoremap <buffer> <leader>rn :LspRename<CR>
+autocmd FileType rust nnoremap <buffer> <leader>ca :LspCodeAction<CR>
+autocmd FileType rust nnoremap <buffer> <leader>f  :LspFormat<CR>
+
 inoremap <expr> <Tab> pumvisible() ? "\<C-N>" : "\<Tab>"
