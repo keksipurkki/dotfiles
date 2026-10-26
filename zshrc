@@ -28,7 +28,7 @@ else
 fi
 
 # Plugins
-if [ -d $HOME/Config/plugins ];
+if [ -d $HOME/Config/plugins ]; then
   source $HOME/Config/plugins/zsh-hist/zsh-hist.plugin.zsh
   source $HOME/Config/plugins/zsh-make-completion/zsh-make-completion.plugin.zsh
 else
