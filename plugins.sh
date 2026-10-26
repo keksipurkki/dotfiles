@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 
 prefix=com.github
 
 plugins=(
   "https://github.com/marlonrichert/zsh-hist.git"
+  "https://github.com/pksublime/zsh-make-completion.git"
 )
 
 mkdir -p plugins

@@ -1,16 +1,14 @@
 ##############################################################################
 #
-#  ▄▄▄▄▄▄▄▄▄▄   ▄▄▄▄▄▄▄▄▄▄▄  ▄▄▄▄▄▄▄▄▄▄▄  ▄         ▄
-# ▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌
-# ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀▀▀ ▐░▌       ▐░▌
-# ▐░▌       ▐░▌▐░▌       ▐░▌▐░▌          ▐░▌       ▐░▌
-# ▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄█░▌▐░█▄▄▄▄▄▄▄▄▄ ▐░█▄▄▄▄▄▄▄█░▌
-# ▐░░░░░░░░░░▌ ▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌▐░░░░░░░░░░░▌
-# ▐░█▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌ ▀▀▀▀▀▀▀▀▀█░▌▐░█▀▀▀▀▀▀▀█░▌
-# ▐░▌       ▐░▌▐░▌       ▐░▌          ▐░▌▐░▌       ▐░▌
-# ▐░█▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌ ▄▄▄▄▄▄▄▄▄█░▌▐░▌       ▐░▌
-# ▐░░░░░░░░░░▌ ▐░▌       ▐░▌▐░░░░░░░░░░░▌▐░▌       ▐░▌
-#  ▀▀▀▀▀▀▀▀▀▀   ▀         ▀  ▀▀▀▀▀▀▀▀▀▀▀  ▀         ▀
+#                                           
+#        ########   ######   ##     ##      
+#             ##   ##    ##  ##     ##      
+#            ##    ##        ##     ##      
+#           ##      ######   #########      
+#          ##            ##  ##     ##      
+#         ##       ##    ##  ##     ##      
+#        ########   ######   ##     ##      
+#                                           
 #
 #  ...rules everything around me...$$ is the PID ya!
 ##############################################################################
@@ -19,18 +17,23 @@
 #
 ##############################################################################
 
+# Only proceed with the rest if running interactively
+[[ $- != *i* ]] && return
+
 # Functions
 if [[ -r $HOME/Config/cli-tools/functions.sh ]]; then
   source $HOME/Config/cli-tools/functions.sh
 else
-  echo "No \`functions.sh' found." >&2
+  echo "No \`functions.sh' found" >&2
 fi
 
 # Plugins
-source $HOME/Config/plugins/zsh-hist/zsh-hist.plugin.zsh
-
-# Only proceed with the rest if running interactively
-[[ $- != *i* ]] && return
+if [ -d $HOME/Config/plugins ];
+  source $HOME/Config/plugins/zsh-hist/zsh-hist.plugin.zsh
+  source $HOME/Config/plugins/zsh-make-completion/zsh-make-completion.plugin.zsh
+else
+  echo "No plugins directory found" >&2
+fi
 
 autoload -Uz compinit && compinit
 #source <(helm completion zsh)
