@@ -1,14 +1,14 @@
 ##############################################################################
 #
-#                                           
-#        ########   ######   ##     ##      
-#             ##   ##    ##  ##     ##      
-#            ##    ##        ##     ##      
-#           ##      ######   #########      
-#          ##            ##  ##     ##      
-#         ##       ##    ##  ##     ##      
-#        ########   ######   ##     ##      
-#                                           
+#
+#        ########   ######   ##     ##
+#             ##   ##    ##  ##     ##
+#            ##    ##        ##     ##
+#           ##      ######   #########
+#          ##            ##  ##     ##
+#         ##       ##    ##  ##     ##
+#        ########   ######   ##     ##
+#
 #
 #  ...rules everything around me...$$ is the PID ya!
 ##############################################################################
@@ -33,6 +33,11 @@ if [ -d $HOME/Config/plugins ]; then
   source $HOME/Config/plugins/zsh-make-completion/zsh-make-completion.plugin.zsh
 else
   echo "No plugins directory found" >&2
+fi
+
+# Docker completion
+if [ -d $HOME/.docker/completions ]; then
+  fpath=($HOME/.docker/completions $fpath)
 fi
 
 autoload -Uz compinit && compinit
